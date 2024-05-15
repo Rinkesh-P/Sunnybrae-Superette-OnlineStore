@@ -14,7 +14,7 @@ conn = sqlite3.connect('db.sqlite3')
 c = conn.cursor()
 
 # Create table if it doesn't exist
-c.execute('''CREATE TABLE IF NOT EXISTS store_products (
+c.execute('''CREATE TABLE IF NOT EXISTS store_product (
              item_id INTEGER PRIMARY KEY,
              item_code TEXT,
              item_name TEXT,
@@ -64,7 +64,7 @@ for item in root.findall('tbl_Item'):
     #print("Extracted and converted data:", data)
     
     try:
-        c.execute('''INSERT OR IGNORE INTO store_products (item_id, item_code, item_name, category_id, current_price) 
+        c.execute('''INSERT OR IGNORE INTO store_product (item_id, item_code, item_name, category_id, current_price) 
                      VALUES (?, ?, ?, ?, ?)''', data)
     except sqlite3.Error as e:
         print(f"Error inserting data {data}: {e}")
@@ -74,7 +74,7 @@ conn.commit()
 
 # Delete Records which have contain a 0 as the price
 try:
-    c.execute('DELETE FROM store_products WHERE current_price = 0')
+    c.execute('DELETE FROM store_product WHERE current_price = 0')
     conn.commit()
 except sqlite3.Error as e:
     print(f"Error deleting records with current_price 0: {e}")
