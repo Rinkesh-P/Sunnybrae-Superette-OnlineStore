@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import sqlite3
 
 # Print the current working directory
+#print("Current working directory:", os.getcwd())
 
 # Check if the XML file exists
 file_path = 'data.xml'
@@ -17,7 +18,7 @@ c = conn.cursor()
 
 # Create table if it doesn't exist
 c.execute('''CREATE TABLE IF NOT EXISTS ProductTable (
-             Item_ID INTEGER,
+             Item_ID INTEGER PRIMARY KEY,
              Item_Code TEXT,
              Item_Name TEXT,
              Category_ID INTEGER,
@@ -40,9 +41,16 @@ for item in root.findall('tbl_Item'):
     # Debugging: Print data to ensure it is being extracted correctly
     # print("Extracted data:", data)
     
-    c.execute('''INSERT INTO ProductTable (Item_ID, Item_Code, Item_Name, Category_ID, Current_Price) 
+    c.execute('''INSERT OR IGNORE INTO ProductTable (Item_ID, Item_Code, Item_Name, Category_ID, Current_Price) 
                  VALUES (?, ?, ?, ?, ?)''', data)
 
-# Commit the changes and close the connection
+# Commit the changes 
 conn.commit()
+
+#Delete Records which have contain a 0 as the price
+c.execute('DELETE FROM ProductTable WHERE Current_Price = 0')
+
+conn.commit()
+
+# Close the Connection 
 conn.close()
