@@ -1,11 +1,44 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-     <h3>Product</h3>
+     <h3>Products Page</h3>
+
+     <div class ="row">
+          <div class = "col-lg-4">
+               <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
+               <div class = "box-element product">
+                    <h6> Product Name </h6>
+                    <hr> 
+
+                    <button class = "btn btn-outline-secondary add-btn">Add to Cart </button>
+                    <a class="btn btn-outline-success" href="#">View</a>
+                    <h5 style="display: inline-block; float: right"> price </h5>
+               </div>
+          </div>
+
+          <div class = "col-lg-4">
+               <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
+               <div class = "box-element product">
+                    <h6> Product desc </h6>
+                    <hr> 
+
+                    <button class = "btn btn-outline-secondary add-btn">Add to Cart </button>
+                    <a class="btn btn-outline-success" href="#">View</a>
+                    <h5 style="display: inline-block; float: right"> price </h5>
+               </div>
+          </div>
+
+          <div class = "col-lg-4">
+               <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
+               <div class = "box-element product">
+                    <h6> Product desc </h6>
+                    <hr> 
+
+                    <button class = "btn btn-outline-secondary add-btn">Add to Cart </button>
+                    <a class="btn btn-outline-success" href="#">View</a>
+                    <h5 style="display: inline-block; float: right"> price </h5>
+               </div>
+          </div>
+
 {% endblock content %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-
-<h1> This is the product page </h1>
-
-<!-- <img src = "{static 'images/imagename.filetype' %}"-->
