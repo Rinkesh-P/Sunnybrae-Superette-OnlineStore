@@ -34,11 +34,11 @@
                </li>
                {%endif%}
 
-               {%for num in page_object.paginator.page_range %} <!-- loop over over the page numbers that are avilable for pagination -->
+               {% comment %} {%for num in page_object.paginator.page_range %} <!-- loop over over the page numbers that are avilable for pagination -->
                <li class ="page-item {%if page_object.number == num %} active {%endif%}"> <!-- check if current page num is == to the page number in the loop if it is equal then i want to highlight that page num-->
                     <a class = "page-link" href="?page={{num}}">{{num}}</a> 
                </li>
-               {%endfor%}
+               {%endfor%} {% endcomment %}
 
                {% if page_object.has_next %} <!-- check if there is a next page, if there is then display the link for it -->
                <li class="page-item">
