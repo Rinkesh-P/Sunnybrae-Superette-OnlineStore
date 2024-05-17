@@ -3,20 +3,24 @@
 {% block content %}
      <h3>Products Page</h3>
 
-     <div class ="row">
-          {% for product in page_object %}
-          <div class = "col-lg-4">
-               <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
-               <div class = "box-element product">
-                    <h6> {{product.item_name}} </h6>
-                    <hr> 
+     <div class = "container">
+          <div class ="row">
+               {% for product in page_object %}
+               <div class="col-lg-4 ">
+                    <div class = "box-element product">
+                         <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
+                    
+                         <h6> {{product.item_name}} </h6>
+                         <hr> 
 
-                    <button class = "btn btn-outline-secondary add-btn">Add to Cart </button>
-                    <a class="btn btn-outline-success" href="#">View</a>
-                    <h5 style="display: inline-block; float: right"> ${{product.current_price|floatformat:2}} </h5>
+                         <button class = "btn btn-outline-secondary add-btn">Add to Cart </button>
+                         <a class="btn btn-outline-success" href="#">View</a>
+                         <h5 style="display: inline-block; float: right"> ${{product.current_price|floatformat:2}} </h5>
+                    </div>
                </div>
-          {% endfor %}
+               {% endfor %}
           </div>
+     </div>
 
 {% endblock content %}
 
