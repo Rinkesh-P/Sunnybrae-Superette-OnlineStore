@@ -4,9 +4,9 @@
      <h3>Products Page</h3>
 
      <div class = "container">
-          <div class ="row">
+          <div class ="row" id="product-container">
                {% for product in page_object %}
-               <div class="col-lg-4 ">
+               <div class="col-lg-4 product-item">
                     <div class = "box-element product">
                          <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
                     
@@ -50,6 +50,44 @@
           </ul>
      </nav>
 
+     <div class = "text-center" id="loading">
+          <button id ="load-more" class ="btn btn-primary"> Load More </button> 
+     </div>
+
+     <script>
+          let page = 1;
+          function loadMoreProducts() {
+               page++;
+               
+               fetch(`?page=${page}`).then(response => { // Use Fetch API to make the request
+                    if (!response.ok) {
+                         throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text();
+               }).then(data => {
+                    const parser = new DOMParser();
+                    const htmlDocument = parser.parseFromString(data, 'text/html');
+      
+                      
+                    const newProducts = htmlDocument.querySelectorAll('.product-item'); // Find all new product items in the response
+      
+                      
+                    const container = document.getElementById('product-container'); // Get the product container
+      
+                    newProducts.forEach(product => container.appendChild(product)); // Add new products to the container
+      
+                    const newPageObj = htmlDocument.querySelector('.pagination'); // Find out if there are more pages of products
+                    if (!newPageObj) {
+                         document.getElementById('load-more').style.display = 'none';
+                    }
+                  }).catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                  });
+          }
+          document.getElementById('load-more').addEventListener('click', loadMoreProducts);
+      </script>
+      
+      
 
 {% endblock content %}
 

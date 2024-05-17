@@ -5,7 +5,7 @@ from django.core.paginator import Paginator #Paginator should divide the product
 def product(request):
     products = Product.objects.all()
     
-    paginator = Paginator(products, 60) #limits it to x products per page #setting to 6 for testing purposes 
+    paginator = Paginator(products, 6) #limits it to x products per page #setting to 6 for testing purposes 
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
         
