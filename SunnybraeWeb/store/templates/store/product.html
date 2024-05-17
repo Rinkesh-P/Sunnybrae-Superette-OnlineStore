@@ -22,5 +22,34 @@
           </div>
      </div>
 
+     <!-- Creating a pagination bar for all the pages so customer can click on it and browse other products-->
+     <nav aria-label = "Page navigation">
+          <ul class="pagination justift-content-center">
+
+               {% if page_object.has_previous %} <!-- check if there is a previous page, if there is then display the link for it -->
+               <li class="page-item">
+                    <a class="page-link" href="?page={{ page_object.previous_page_number }}" aria-label="Previous">
+                         <span aria-hidden="true">&laquo;</span> 
+                    </a>
+               </li>
+               {%endif%}
+
+               {%for num in page_object.paginator.page_range %} <!-- loop over over the page numbers that are avilable for pagination -->
+               <li class ="page-item {%if page_object.number == num %} active {%endif%}"> <!-- check if current page num is == to the page number in the loop if it is equal then i want to highlight that page num-->
+                    <a class = "page-link" href="?page={{num}}">{{num}}</a> 
+               </li>
+               {%endfor%}
+
+               {% if page_object.has_next %} <!-- check if there is a next page, if there is then display the link for it -->
+               <li class="page-item">
+                    <a class="page-link" href="?page={{ page_object.next_page_number }}" aria-label="Next"> 
+                         <span aria-hidden="true">&raquo;</span>
+                    </a>
+               </li>
+               {% endif %}
+          </ul>
+     </nav>
+
+
 {% endblock content %}
 
