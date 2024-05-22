@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
     
-    console.log("Dom fully loaded"); //check if dom is loaded. 
+    //console.log("Dom fully loaded"); //check if dom is loaded. 
 
     let page = 1;
 
@@ -46,31 +46,37 @@ document.addEventListener("DOMContentLoaded", function(){
         if (event.target && event.target.classList.contains("add-btn")) {
             const productId = event.target.getAttribute("data-product");
             const action = 'add';
-            console.log (productId, action);  // check if add btn is workin 
+            //console.log (productId, action);  // check if add btn is workin 
             updateUserOrder(productId, action);
         }
 
        if (event.target && event.target.classList.contains("chg-quantity")) {
             const productId = event.target.getAttribute("data-product");
             const action = event.target.getAttribute("data-action");
-            console.log (productId, action);  // check if arrows are working 
+            //console.log (productId, action);  // check if arrows are working 
             updateUserOrder(productId, action);
         }
     });
 
-    function updateUserOrder(productId, action) {
+    function updateUserOrder(productId, action) { //CSRF token from the 'X-Csrftoken' HTTP header has incorrect length  
+
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]'); // CSRF Token is already in html, but have to read in JS 
+        if (!csrfToken){
+            console.error("Token could not be found"); 
+        }
+
         const url = '/updateItem/';
         fetch(url, {
              method: 'POST',
              headers: {
                   'Content-Type': 'application/json',
-                  'X-CSRFToken': '{{ csrf_token }}'
+                  'X-CSRFToken': csrfToken.value
              },
              body: JSON.stringify({ 'productId': productId, 'action': action })
         })
              .then(response => response.json())
              .then(data => {
-                  console.log('Data:', data);
+                  //console.log('Data:', data);
                   location.reload();
              });
    }

@@ -50,8 +50,10 @@ body{
 }
 
 .btn{
-	border-radius: 0;
+	border-radius: 0px;
 }
+
+
 
 .row-image{
 	width: 100px;
