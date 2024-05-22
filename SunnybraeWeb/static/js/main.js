@@ -42,4 +42,37 @@ document.addEventListener("DOMContentLoaded", function(){
         loadMoreBtn.addEventListener("click", loadMoreProducts);
     }
 
+    document.addEventListener("click", function(event){
+        if (event.target && event.target.classList.contains("add-btn")) {
+            const productId = event.target.getAttribute("data-product");
+            const action = 'add';
+            console.log (productId, action);  // check if add btn is workin 
+            updateUserOrder(productId, action);
+        }
+
+       if (event.target && event.target.classList.contains("chg-quantity")) {
+            const productId = event.target.getAttribute("data-product");
+            const action = event.target.getAttribute("data-action");
+            console.log (productId, action);  // check if arrows are working 
+            updateUserOrder(productId, action);
+        }
+    });
+
+    function updateUserOrder(productId, action) {
+        const url = '/updateItem/';
+        fetch(url, {
+             method: 'POST',
+             headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': '{{ csrf_token }}'
+             },
+             body: JSON.stringify({ 'productId': productId, 'action': action })
+        })
+             .then(response => response.json())
+             .then(data => {
+                  console.log('Data:', data);
+                  location.reload();
+             });
+   }
+
 });
