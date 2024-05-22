@@ -8,12 +8,14 @@ import json
 def product(request):
     products = Product.objects.all()
     
-    paginator = Paginator(products, 6) #limits it to x products per page #setting to 6 for testing purposes 
+    paginator = Paginator(products, 9) #limits it to x products per page 
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
-        
-    #context = {'products':products} 
+    
+    print(page_object.number, " PAGE OBJECT PRINTED HERE ")
+    
     context = {'page_object':page_object} #should render the page with x products as opposed to all products 
+    print ("CONTEXT ---------------- ",  context) 
     
     return render (request, 'store/product.html', context)
 
