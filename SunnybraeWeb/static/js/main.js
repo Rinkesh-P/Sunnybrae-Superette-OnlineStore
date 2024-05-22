@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(){
+    
+    console.log("Dom fully loaded"); //check if dom is loaded. 
 
     let page = 1;
+
     function loadMoreProducts() {
          page++;
 
@@ -27,34 +30,16 @@ document.addEventListener("DOMContentLoaded", function(){
                         document.getElementById("load-more").style.display = "none";
                    }
               })
-              .catch((error) => { console.error("There has been a problem with your fetch operation:", error); });
+              .catch((error) => { 
+                console.error("There has been a problem with your fetch operation:", error); 
+              });
     }
 
-    document.getElementById("load-more").addEventListener("click", loadMoreProducts);
+    //document.getElementById("load-more").addEventListener("click", loadMoreProducts); //wont work anymore as when run it will return null due to the script trying to find the element before it exists in the DOM
 
-    document.addEventListener("click", function (event) {
-         if (event.target && event.target.classList.contains("add-btn")) {
-              const productId = event.target.getAttribute("data-product");
-              const action = 'add';
-              //console.log ('Item was added: ', productId) //testing to see if the click is working 
-              updateUserOrder(productId, action);
-         }
-    });
-
-    function updateUserOrder(productId, action) {
-         const url = '/updateItem/';
-         fetch(url, {
-              method: 'POST',
-              headers: {
-                   'Content-Type': 'application/json',
-                   'X-CSRFToken': '{{ csrf_token }}'
-              },
-              body: JSON.stringify({ 'productId': productId, 'action': action })
-         })
-              .then(response => response.json())
-              .then(data => {
-                   console.log('Data:', data);
-              });
+    const loadMoreBtn = document.getElementById("load-more"); //find load more button 
+    if (loadMoreBtn) { //if the button is not null 
+        loadMoreBtn.addEventListener("click", loadMoreProducts);
     }
 
 });
