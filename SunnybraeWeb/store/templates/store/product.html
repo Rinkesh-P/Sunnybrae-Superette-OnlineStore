@@ -1,5 +1,5 @@
-{% extends 'store/main.html' %} 
-{% load static %} 
+{% extends 'store/main.html' %}
+{% load static %}
 {% block content %}
 <h3>Products Page</h3>
 <div class="container">
@@ -10,10 +10,11 @@
                     <img class="thumbnail" src="{% static 'images/placeholder.png' %}" />
                     <h6>{{product.item_name}}</h6>
                     <hr>
-                    
-                    <button class="btn btn-outline-secondary add-btn" data-product = "{{product.item_id}}">Add to Cart</button>
+
+                    <button class="btn btn-outline-secondary add-btn" data-product="{{product.item_id}}">Add to
+                         Cart</button>
                     <a class="btn btn-outline-success" href="#">View</a>
-                    
+
                     <h5 style="display: inline-block; float: right">
                          ${{product.current_price|floatformat:2}}
                     </h5>
@@ -29,16 +30,12 @@
           {% if page_object.has_previous %}
           <!-- check if there is a previous page, if there is then display the link for it -->
           <li class="page-item">
-               <a
-               class="page-link"
-               href="?page={{ page_object.previous_page_number }}"
-               aria-label="Previous"
-               >
-               <span aria-hidden="true">&laquo;</span></a>
+               <a class="page-link" href="?page={{ page_object.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span></a>
           </li>
-          {%endif%} 
+          {%endif%}
           {% comment %} {%for num in page_object.paginator.page_range %}
-     
+
           <!-- loop over over the page numbers that are avilable for pagination -->
           <li class="page-item {%if page_object.number == num %} active {%endif%}">
                <!-- check if current page num is == to the page number in the loop if it is equal then i want to highlight that page num-->
@@ -47,12 +44,8 @@
           {%endfor%} {% endcomment %} {% if page_object.has_next %}
           <!-- check if there is a next page, if there is then display the link for it -->
           <li class="page-item">
-               <a
-               class="page-link"
-               href="?page={{ page_object.next_page_number }}"
-               aria-label="Next"
-               >
-               <span aria-hidden="true">&raquo;</span> </a>
+               <a class="page-link" href="?page={{ page_object.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span> </a>
           </li>
           {% endif %}
      </ul>
@@ -61,65 +54,5 @@
 <div class="text-center" id="loading">
      <button id="load-more" class="btn btn-primary">Load More</button>
 </div>
-
-<script>
-     let page = 1;
-     function loadMoreProducts() {
-     page++;
-
-     fetch(`?page=${page}`)
-          .then((response) => {
-          // Use Fetch API to make the request
-          if (!response.ok) {
-               throw new Error("Network response was not ok " + response.statusText);
-          }
-          return response.text();
-     })
-     .then((data) => {
-          const parser = new DOMParser();
-          const htmlDocument = parser.parseFromString(data, "text/html");
-
-          const newProducts = htmlDocument.querySelectorAll(".product-item"); // Find all new product items in the response
-
-          const container = document.getElementById("product-container"); // Get the product container
-
-          newProducts.forEach((product) => container.appendChild(product)); // Add new products to the container
-
-          const newPageObj = htmlDocument.querySelector(".pagination"); // Find out if there are more pages of products
-          if (!newPageObj) {
-               document.getElementById("load-more").style.display = "none";
-          }
-     })
-     .catch((error) => {console.error("There has been a problem with your fetch operation:",error);});
-     }
-     
-     document.getElementById("load-more").addEventListener("click", loadMoreProducts);
-
-     document.addEventListener("click", function (event) {
-          if (event.target && event.target.classList.contains("add-btn")) {
-               const productId = event.target.getAttribute("data-product");
-               const action = 'add'; 
-               //console.log ('Item was added: ', productId) //testing to see if the click is working 
-               updateUserOrder(productId, action); 
-          }
-     });
-
-     function updateUserOrder(productId, action) {
-          const url = '/updateItem/';
-          fetch(url, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRFToken': '{{ csrf_token }}'
-              },
-              body: JSON.stringify({ 'productId': productId, 'action': action })
-          })
-          .then(response => response.json())
-          .then(data => {
-              console.log('Data:', data);
-          });
-      }
-
-</script>
 
 {% endblock content %}
