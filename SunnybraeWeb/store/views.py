@@ -4,6 +4,8 @@ from django.core.paginator import Paginator #Paginator should divide the product
 from django.http import JsonResponse
 import json
 
+
+
 # Create your views here.
 def product(request):
     products = Product.objects.all()
@@ -64,3 +66,11 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
+
+def login(request):
+    context = {}
+    return render (request, 'store/login.html', context)
+
+def register(request):
+    context = {}
+    return render (request, 'store/register.html', context)

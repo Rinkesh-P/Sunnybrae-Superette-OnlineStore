@@ -39,9 +39,9 @@
       </ul>
       <div class="form-inline my-2 my-lg-0">
         <div class = "single-btn">
-          <a href="#" class="btn btn-warning"> Login </a> <!-- implement on 24/05 end -->
+          <a href="{% url 'login' %}" class="btn btn-warning"> Login </a>
           
-          <a href="#" class="btn btn-warning"> Register </a> <!-- implement on 24/05 end -->
+          <a href="{% url 'register' %}" class="btn btn-warning"> Register </a> 
         </div>
 
         <a class="btn cart-link " href="{% url 'cart' %}"> Cart </a>
