@@ -1,8 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import * 
 from django.core.paginator import Paginator #Paginator should divide the product page so that it shows x amount of products per page rather than all the products on the page
 from django.http import JsonResponse
 import json
+
+from .forms import LoginForm, RegisterForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from .models import Customer
+
 
 
 
@@ -67,10 +73,31 @@ def updateItem(request):
 
     return JsonResponse('Item was added', safe=False)
 
-def login(request):
-    context = {}
-    return render (request, 'store/login.html', context)
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('product')
+    else:
+        form=LoginForm()
+         
+    return render (request, 'store/login.html', {'form':form})
 
-def register(request):
-    context = {}
-    return render (request, 'store/register.html', context)
+
+def user_register(request):
+    
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            Customer.objects.create(user=user, name=user.username, email=user.email)
+            login (request, user)
+            return redirect('product')
+    else:
+        form = RegisterForm()
+    return render (request, 'store/register.html', {'form':form})
