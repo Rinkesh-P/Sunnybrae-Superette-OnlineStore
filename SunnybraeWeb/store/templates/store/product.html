@@ -43,9 +43,8 @@
           </li>
           {%endif%}
           
-          {%for num in page_object.paginator.page_range %}
+          {%for num in page_object.paginator.page_range %} <!-- loop over over the page numbers that are avilable for pagination -->
                {% if page_object.number == num or num >= page_object.number|add:"-5" and num <= page_object.number|add:"5" %} <!-- Limit page numbers so that only 5 page numbers on either end are displayed-->
-               <!-- loop over over the page numbers that are avilable for pagination -->
                <li class="page-item {%if page_object.number == num %} active {%endif%}"> <!-- check if current page num is == to the page number in the loop if it is equal then i want to highlight that page num-->
                     <a class="page-link" href="?page={{num}}">{{num}}</a>
                </li>

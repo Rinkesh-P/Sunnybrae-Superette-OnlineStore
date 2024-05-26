@@ -38,7 +38,7 @@ def cart(request):
 
 def updateItem(request):
     data = json.loads(request.body)
-    print("------------------------------- data ------------------------- ", data) #check if the request is returning the correct values 
+    #print("------------------------------- data ------------------------- ", data) #check if the request is returning the correct values 
     productId = data['productId']
     action = data['action']
 
