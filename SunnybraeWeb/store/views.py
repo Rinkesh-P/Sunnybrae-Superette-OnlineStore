@@ -148,3 +148,7 @@ def user_register(request):
         form = RegisterForm()
     return render (request, 'store/register.html', {'form':form})
 
+def user_logout(request):
+    logout(request)
+    return redirect('product') 
+
