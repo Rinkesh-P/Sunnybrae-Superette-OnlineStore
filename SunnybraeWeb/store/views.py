@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import * 
 from django.core.paginator import Paginator #Paginator should divide the product page so that it shows x amount of products per page rather than all the products on the page
-from django.http import JsonResponse
+from django.http import JsonResponse, QueryDict
 import json
 
 from .forms import LoginForm, RegisterForm
@@ -13,16 +13,31 @@ from .models import Customer
 
 
 # Create your views here.
-def product(request):
-    products = Product.objects.all()
+def product(request): 
+    query = request.GET.get('search') #check if there is a search result, if there is then filter and display that result 
+    if query: 
+        products = Product.objects.filter(item_name__icontains=query) #get all products that contain the searched word in it 
+        print(f"Search query: {query}")  # Print the search query to test to see if it is printing properly
+        print("Search results:") 
+        for product in products:
+            print(f"- {product.item_name}")  
+    else:
+        products = Product.objects.all() #if no search then display all products 
+        print("No product founds, so display all")
     
     paginator = Paginator(products, 9) #limits it to x products per page 
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
     
+    if query: #need to retain the search results when the user clicks on the next page for paginator 
+        query_dict = QueryDict(mutable=True)
+        query_dict['search'] = query
+        query_string = query_dict.urlencode()
+        for page in page_object.paginator.page_range:
+            page_object.paginator.page(page).query_string = query_string    
     #print(page_object.number, " PAGE OBJECT PRINTED HERE ")
     
-    context = {'page_object':page_object} #should render the page with x products as opposed to all products 
+    context = {'page_object':page_object, 'query': query} #should render the page with x products as opposed to all products 
     #print ("CONTEXT ---------------- ",  context) 
     
     return render (request, 'store/product.html', context)
