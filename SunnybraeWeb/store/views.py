@@ -15,14 +15,18 @@ from .models import Customer
 # Create your views here.
 def product(request): 
     query = request.GET.get('search') #check if there is a search result, if there is then filter and display that result 
+    category_id = request.GET.get('category')
+    products = Product.objects.all() 
+    
     if query: 
         products = Product.objects.filter(item_name__icontains=query) #get all products that contain the searched word in it 
         print(f"Search query: {query}")  # Print the search query to test to see if it is printing properly
         print("Search results:") 
         for product in products:
             print(f"- {product.item_name}")  
-    else:
-        products = Product.objects.all() #if user clicks on search without inputting anything then display all the products. 
+    
+    if category_id:
+        products = Product.objects.filter(category_id=category_id)
     
     
     
@@ -38,7 +42,16 @@ def product(request):
             page_object.paginator.page(page).query_string = query_string    
     #print(page_object.number, " PAGE OBJECT PRINTED HERE ")
     
-    context = {'page_object':page_object, 'query': query} #should render the page with x products as opposed to all products 
+    categories = Product.objects.values_list('category_id', flat=True).distinct()
+    categories = sorted(categories)
+    
+    context = {
+        'page_object':page_object, 
+        'query': query, 
+        'categories':categories,  
+        'selected_category': int(category_id) if category_id else None, 
+    } 
+    #should render the page with x products as opposed to all products 
     #print ("CONTEXT ---------------- ",  context) 
     
     return render (request, 'store/product.html', context)

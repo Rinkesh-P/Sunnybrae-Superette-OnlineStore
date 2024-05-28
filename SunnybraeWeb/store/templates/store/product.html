@@ -15,8 +15,19 @@
      <form method ="GET" action = "{%url 'product'%}">
           <input name="search" type="text" placeholder="Search..."> <!-- Implement on 23/05-->
           <button type = "submit" class = "btn btn-primary"> Search </button> 
-          <button type = "button" class = "btn btn-secondary" id = "reset" data-url = "{%url 'product'%}"> Reset Search </button> 
+          <button type = "button" class = "btn btn-secondary" id = "reset" data-url = "{%url 'product'%}"> Reset Search </button>
+          
+          <select name="category" onchange="this.form.submit()">
+               <option value = ""> All Categories </option>
+               {%for i in categories %}
+                    <option value = "{{i}}" {%if i == select_category%} selected {%endif%}> Category {{ i }} </option>
+               {%endfor%}
+          </select> 
+
+
      </form>
+
+     
 
      <div class="row" id="product-container">
           {% for product in page_object %}
