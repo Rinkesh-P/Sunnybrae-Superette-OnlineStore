@@ -79,6 +79,11 @@ document.addEventListener("DOMContentLoaded", function(){
                   //console.log('Data:', data);
                   location.reload();
              });
-   }
+     }
 
+     const reset = document.getElementById('reset'); 
+     reset.addEventListener('click', function(){
+          window.location.href = reset.getAttribute('data-url'); 
+     });
+     
 });

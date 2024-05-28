@@ -22,8 +22,9 @@ def product(request):
         for product in products:
             print(f"- {product.item_name}")  
     else:
-        products = Product.objects.all() #if no search then display all products 
-        print("No product founds, so display all")
+        products = Product.objects.all() #if user clicks on search without inputting anything then display all the products. 
+    
+    
     
     paginator = Paginator(products, 9) #limits it to x products per page 
     page_number = request.GET.get('page')
