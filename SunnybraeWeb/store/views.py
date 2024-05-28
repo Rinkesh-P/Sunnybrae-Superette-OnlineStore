@@ -15,7 +15,7 @@ from .models import Customer
 # Create your views here.
 def product(request): 
     query = request.GET.get('search') #check if there is a search result, if there is then filter and display that result 
-    category_id = request.GET.get('category')
+    category_id = request.GET.get('category') #assign the drop down for All Categories to category_id 
     products = Product.objects.all() 
     
     if query: 
@@ -25,8 +25,8 @@ def product(request):
         for product in products:
             print(f"- {product.item_name}")  
     
-    if category_id:
-        products = Product.objects.filter(category_id=category_id)
+    if category_id: #get all the category_id if the user clicks on the dropdown 
+        products = Product.objects.filter(category_id=category_id) 
     
     
     
@@ -34,22 +34,42 @@ def product(request):
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
     
-    if query: #need to retain the search results when the user clicks on the next page for paginator 
-        query_dict = QueryDict(mutable=True)
-        query_dict['search'] = query
-        query_string = query_dict.urlencode()
-        for page in page_object.paginator.page_range:
-            page_object.paginator.page(page).query_string = query_string    
-    #print(page_object.number, " PAGE OBJECT PRINTED HERE ")
+    # if query: #need to retain the search results when the user clicks on the next page for paginator 
+    #     query_dict = QueryDict(mutable=True)
+    #     query_dict['search'] = query
+    #     query_string = query_dict.urlencode()
+    #     for page in page_object.paginator.page_range:
+    #         page_object.paginator.page(page).query_string = query_string    
+    # #print(page_object.number, " PAGE OBJECT PRINTED HERE ")
     
-    categories = Product.objects.values_list('category_id', flat=True).distinct()
-    categories = sorted(categories)
+    # if category_id:
+    #     category_id_dict = QueryDict(mutable=True)
+    #     category_id_dict['category'] = category_id
+    #     query_string = category_id_dict.urlencode()
+    #     for page in page_object.paginator.page_range:
+    #         page_object.paginator.page(page).query_string = query_string  
+    
+    query_dict = QueryDict(mutable=True)  #need to retain the search results/ category id when the user clicks on the next page for paginator 
+    if query:
+        query_dict['search'] = query
+    if category_id:
+        query_dict['category'] = category_id
+    query_string = query_dict.urlencode()
+
+    for page in page_object.paginator.page_range: #limit the paginator to only the products which are returned in query_string 
+        page_object.paginator.page(page).query_string = query_string  
+    
+    
+
+    categories = Product.objects.values_list('category_id', flat=True).distinct() #list of all the distinct category_id in the product table 
+    categories = sorted(categories) 
     
     context = {
         'page_object':page_object, 
         'query': query, 
         'categories':categories,  
         'selected_category': int(category_id) if category_id else None, 
+        'query_string': query_string, 
     } 
     #should render the page with x products as opposed to all products 
     #print ("CONTEXT ---------------- ",  context) 

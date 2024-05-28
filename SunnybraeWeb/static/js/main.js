@@ -81,9 +81,8 @@ document.addEventListener("DOMContentLoaded", function(){
              });
      }
 
-     const reset = document.getElementById('reset'); 
-     reset.addEventListener('click', function(){
-          window.location.href = reset.getAttribute('data-url'); 
+     document.getElementById('reset').addEventListener('click', function(){
+          window.location.href = this.getAttribute('data-url'); 
      });
      
 });
