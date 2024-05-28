@@ -15,8 +15,7 @@ class Product(models.Model):
     item_name = models.CharField(max_length=255)
     category_id = models.IntegerField()
     current_price = models.FloatField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-
+    
     def __str__(self):
         print(f"Product: {self.item_name}")
         return self.item_name
@@ -53,3 +52,5 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.current_price * self.quantity
         return total 
+
+
