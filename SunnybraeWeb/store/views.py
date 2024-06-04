@@ -80,6 +80,10 @@ def faq(request):
     context = {}
     return render (request, 'store/faq.html', context)
 
+def checkout(request):
+    context = {}
+    return render (request, 'store/checkout.html', context)
+
 def cart(request):
     
     if request.user.is_authenticated:
