@@ -26,6 +26,8 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
+    shipping_status = models.CharField(max_length=50, null=True, default='Pending')
+    payment_status = models.CharField(max_length=50, null=True, default='Pending')
     
     def __str__(self):
         return str(self.id)
@@ -56,6 +58,7 @@ class OrderItem(models.Model):
 
 class CheckoutInfo(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    guest_customer = models.ForeignKey(Customer, related_name='guest_shipping', on_delete=models.SET_NULL, null=True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     address = models.CharField(max_length=200, null = False)
     city = models.CharField(max_length=200, null = False)

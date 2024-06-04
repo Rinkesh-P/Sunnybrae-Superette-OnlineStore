@@ -80,37 +80,47 @@ def faq(request):
     context = {}
     return render (request, 'store/faq.html', context)
 
-def checkout(request): #----------------------------------------------------------------#
+def checkout(request):
     
+    guest_customer = Customer() 
+    order = None
+
     if request.user.is_authenticated:
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False) 
     else:
-        order = None  
+        session_checkout = request.session.get('cart', {})
+        if session_checkout:
+            guest_email = session_checkout.get('email')
+            guest_customer, created = Customer.objects.get_or_create(email=guest_email, defaults={'name': 'Guest'})
+            customer = guest_customer
     
-    if order: 
-        items = order.orderitem_set.all()
-    else:
-        items = [] 
+    if customer:
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
     
+    items = order.orderitem_set.all() if order else []
+
     if request.method == 'POST':
         form = CheckoutForm(request.POST) 
         if form.is_valid():
             checkout_info = form.save(commit=False)
-            if request.user.is_authenticated:
-                checkout_info.customer = customer
-            else:
-                pass #integrate a guest checkout option 
+            checkout_info.customer = customer
             checkout_info.order = order
             checkout_info.save()
             order.complete = True 
+            order.payment_status = 'Mock Payment Completed'
             order.save() 
+            
+            if not request.user.is_authenticated:
+                request.session['cart'] = {}
+            
             return redirect('order_confirmation')
     else:
         form = CheckoutForm()  
              
     context = {'items': items, 'order': order, 'form': form}
-    return render (request, 'store/checkout.html', context)
+    return render(request, 'store/checkout.html', context)
+
+
 
 def order_confirmation(request):
     context = {}
