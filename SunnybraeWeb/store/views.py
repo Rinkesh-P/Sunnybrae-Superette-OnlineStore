@@ -4,7 +4,7 @@ from django.core.paginator import Paginator #Paginator should divide the product
 from django.http import JsonResponse, QueryDict
 import json
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, CheckoutForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import Customer
@@ -80,8 +80,32 @@ def faq(request):
     context = {}
     return render (request, 'store/faq.html', context)
 
-def checkout(request):
-    context = {}
+def checkout(request): #----------------------------------------------------------------#
+    
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False) 
+    else:
+        order = None  
+    
+    items = order.orderitem_set.all()
+     
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST) 
+        if form.is_valid():
+            checkout_info = form.save(commit=False)
+            if request.user.is_authenticated:
+                checkout_info.customer = customer
+            else:
+                pass 
+            checkout_info.order = order
+            checkout_info.save()
+            order.complete = True 
+            order.save() 
+    else:
+        form = CheckoutForm()  
+             
+    context = {'items': items, 'order': order, 'form': form}
     return render (request, 'store/checkout.html', context)
 
 def cart(request):
