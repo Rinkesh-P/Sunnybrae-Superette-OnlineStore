@@ -88,8 +88,11 @@ def checkout(request): #--------------------------------------------------------
     else:
         order = None  
     
-    items = order.orderitem_set.all()
-     
+    if order: 
+        items = order.orderitem_set.all()
+    else:
+        items = [] 
+    
     if request.method == 'POST':
         form = CheckoutForm(request.POST) 
         if form.is_valid():
@@ -97,16 +100,21 @@ def checkout(request): #--------------------------------------------------------
             if request.user.is_authenticated:
                 checkout_info.customer = customer
             else:
-                pass 
+                pass #integrate a guest checkout option 
             checkout_info.order = order
             checkout_info.save()
             order.complete = True 
             order.save() 
+            return redirect('order_confirmation')
     else:
         form = CheckoutForm()  
              
     context = {'items': items, 'order': order, 'form': form}
     return render (request, 'store/checkout.html', context)
+
+def order_confirmation(request):
+    context = {}
+    return render (request, 'store/order_confirmation.html', context)
 
 def cart(request):
     
