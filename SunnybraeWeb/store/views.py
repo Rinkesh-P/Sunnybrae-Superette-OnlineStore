@@ -7,6 +7,7 @@ import json
 from .forms import LoginForm, RegisterForm, CheckoutForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages 
 from .models import Customer
 
 
@@ -83,6 +84,7 @@ def faq(request):
 def checkout(request):
     
     guest_customer = Customer() 
+    customer = None 
     order = None
 
     if request.user.is_authenticated:
@@ -94,8 +96,18 @@ def checkout(request):
             guest_customer, created = Customer.objects.get_or_create(email=guest_email, defaults={'name': 'Guest'})
             customer = guest_customer
     
+    # try:
+    #     if customer:
+    #         order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    # except UnboundLocalError:
+    #     return redirect('cart')
+    
     if customer:
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        
+    if not order or not order.orderitem_set.exists():
+        messages.warning(request, "Your cart is empty. Please add items to your cart before checking out.")
+        return redirect('cart')
     
     items = order.orderitem_set.all() if order else []
 
