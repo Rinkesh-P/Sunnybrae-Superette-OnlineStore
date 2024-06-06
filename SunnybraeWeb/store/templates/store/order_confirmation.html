@@ -5,7 +5,7 @@
     <h1>Order Confirmation</h1>
     {% if order %}
         <p>Order ID: {{ order.id }}</p>
-        <p>Total Price: ${{ order.get_cart_total }}</p>
+        <p>Total Price: ${{ order.get_cart_total|floatformat:2 }}</p>
         <h2>Ordered Items:</h2>
         <ul>
             {% for item in order.orderitem_set.all %}

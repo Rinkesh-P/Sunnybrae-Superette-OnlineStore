@@ -14,7 +14,15 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
-class CheckoutForm(forms.ModelForm):
+
+class RegisteredCheckoutForm(forms.ModelForm):
     class Meta:
         model = CheckoutInfo
         fields = ['address', 'city', 'suburb', 'zipcode', 'country']
+
+class GuestCheckoutForm(forms.ModelForm):
+    guest_email = forms.EmailField()
+
+    class Meta:
+        model = CheckoutInfo
+        fields = ['guest_email', 'address', 'city', 'suburb', 'zipcode', 'country']

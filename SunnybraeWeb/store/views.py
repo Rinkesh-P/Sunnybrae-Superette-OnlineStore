@@ -4,7 +4,7 @@ from django.http import JsonResponse, QueryDict
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages 
-from .forms import LoginForm, RegisterForm, CheckoutForm
+from .forms import LoginForm, RegisterForm, GuestCheckoutForm, RegisteredCheckoutForm
 from .models import * 
 import json
 
@@ -80,46 +80,60 @@ def faq(request):
     return render (request, 'store/faq.html', context)
 
 def checkout(request):
-    
-    guest_customer = Customer() 
     order = None
-
+    customer = None 
+    
+    session_cart = request.session.get('cart', {})
+    
+    if not request.user.is_authenticated:
+        if not session_cart:
+            messages.warning(request, "Cart Empty. Add before continuing")
+            return redirect('cart')
+    
     if request.user.is_authenticated:
         customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        form = RegisteredCheckoutForm
+        intial_form_details = {'customer': customer}
     else:
-        session_checkout = request.session.get('cart', {})
-        if session_checkout:
-            guest_email = session_checkout.get('email')
-            guest_customer, created = Customer.objects.get_or_create(email=guest_email, defaults={'name': 'Guest'})
-            customer = guest_customer
+        guest_email = session_cart.get('email')
+        form = GuestCheckoutForm
+        intial_form_details = {}
     
-    try:
-        if customer:
+        if guest_email:
+            customer, created = Customer.objects.get_or_create(email=guest_email, defaults={'name': 'Guest'})
             order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    except UnboundLocalError:
-        messages.warning(request, " Your cart is empty, please add products to cart before proceding to checkout.")
-        return redirect('cart')
-         
-    
-    items = order.orderitem_set.all() if order else []
 
     if request.method == 'POST':
-        form = CheckoutForm(request.POST) 
+        form = form(request.POST, initial=intial_form_details)
         if form.is_valid():
             checkout_info = form.save(commit=False)
+            if not request.user.is_authenticated:
+                guest_email = form.cleaned_data['guest_email']
+                request.session['cart']['email'] = guest_email
+                request.session.modified = True
+                customer, created = Customer.objects.get_or_create(email=guest_email, defaults={'name': 'Guest'})
+                if not order:
+                    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
             checkout_info.customer = customer
             checkout_info.order = order
             checkout_info.save()
-            order.complete = True 
-            order.payment_status = 'Mock Payment Completed'
-            order.save() 
-            
             if not request.user.is_authenticated:
-                request.session['cart'] = {}
+                session_cart = request.session.get('cart', {})
+                for product_id, quantity in session_cart.items():
+                    if product_id != 'email':  
+                        product = Product.objects.get(item_id=product_id)
+                        OrderItem.objects.create(order=order, product=product, quantity=quantity)
+            order.complete = True
+            order.payment_status = 'Mock Payment Completed'
+            order.save()  
             
             return redirect('order_confirmation')
     else:
-        form = CheckoutForm()  
+        form = form(initial=intial_form_details)
+    
+    items = order.orderitem_set.all() if order else []
              
     context = {'items': items, 'order': order, 'form': form}
     return render(request, 'store/checkout.html', context)
@@ -129,14 +143,20 @@ def order_confirmation(request):
     
     if request.user.is_authenticated:
         customer = request.user.customer
+    else:
+        session_cart = request.session.get('cart', {})
+        guest_email = session_cart.get('email')
+        if guest_email:
+            customer = Customer.objects.get(email=guest_email)
     
-    try:
+    if customer:
         order = Order.objects.filter(customer=customer, complete=True).latest('date_ordered')
-        print("ORDER IS HERE", order)
-    except Order.DoesNotExist:
-        order = None  
-        print("No completed order found for customer.")
-    
+    else:
+        order = None
+
+    if not request.user.is_authenticated:
+        request.session['cart'] = {}
+        
     context = {'order': order}
     return render(request, 'store/order_confirmation.html', context)
 
