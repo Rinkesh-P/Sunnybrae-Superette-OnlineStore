@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect
-from .models import * 
 from django.core.paginator import Paginator #Paginator should divide the product page so that it shows x amount of products per page rather than all the products on the page
 from django.http import JsonResponse, QueryDict
-import json
-
-from .forms import LoginForm, RegisterForm, CheckoutForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages 
-from .models import Customer
+from .forms import LoginForm, RegisterForm, CheckoutForm
+from .models import * 
+import json
 
 
 
@@ -21,10 +19,10 @@ def product(request):
     
     if query: 
         products = Product.objects.filter(item_name__icontains=query) #get all products that contain the searched word in it 
-        print(f"Search query: {query}")  # Print the search query to test to see if it is printing properly
-        print("Search results:") 
-        for product in products:
-            print(f"- {product.item_name}")  
+        # print(f"Search query: {query}")  # Print the search query to test to see if it is printing properly
+        # print("Search results:") 
+        # for product in products:
+        #     print(f"- {product.item_name}")  
     
     if category_id: #get all the category_id if the user clicks on the dropdown 
         products = Product.objects.filter(category_id=category_id) 
@@ -126,8 +124,6 @@ def checkout(request):
              
     context = {'items': items, 'order': order, 'form': form}
     return render(request, 'store/checkout.html', context)
-
-
 
 def order_confirmation(request):
     context = {}
@@ -235,7 +231,6 @@ def user_login(request):
         form=LoginForm()
          
     return render (request, 'store/login.html', {'form':form})
-
 
 def user_register(request):
     

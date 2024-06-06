@@ -37,9 +37,20 @@
                     <h6>{{product.item_name}}</h6>
                     <hr>
 
-                    <button class="btn btn-outline-secondary add-btn" data-product="{{product.item_id}}">Add to
-                         Cart</button>
-                    <a class="btn btn-outline-success" href="#">View</a>
+                    <button class="btn btn-outline-secondary add-btn" data-product="{{product.item_id}}">Add to Cart </button>
+                    
+                    <button popovertarget = "view-btn" class="btn btn-outline-success" href="#">View </button> 
+
+                    <div id = "view-btn" popover> 
+                         <img class="thumbnail" src="{% static 'images/placeholder.png' %}" />
+                         <h6> Product Id: <span class = "normal-text"> {{product.item_id}}  </span> </h6> 
+                         <h6> Product Name: <span class = "normal-text"> {{product.item_name}} </span> </h6> 
+                         <h6> Product Price: <span class = "normal-text"> ${{product.current_price}} </span> </h6> 
+                         <h6> Category Id: <span class = "normal-text"> {{product.category_id}} </span> </h6>
+                         <button class="btn btn-outline-secondary add-btn" data-product="{{product.item_id}}"> Add to Cart </button> 
+                    </div> 
+
+                    
 
                     <h5 style="display: inline-block; float: right">
                          ${{product.current_price|floatformat:2}}
