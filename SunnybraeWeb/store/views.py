@@ -82,7 +82,6 @@ def faq(request):
 def checkout(request):
     
     guest_customer = Customer() 
-    
     order = None
 
     if request.user.is_authenticated:
@@ -126,8 +125,20 @@ def checkout(request):
     return render(request, 'store/checkout.html', context)
 
 def order_confirmation(request):
-    context = {}
-    return render (request, 'store/order_confirmation.html', context)
+    customer = None
+    
+    if request.user.is_authenticated:
+        customer = request.user.customer
+    
+    try:
+        order = Order.objects.filter(customer=customer, complete=True).latest('date_ordered')
+        print("ORDER IS HERE", order)
+    except Order.DoesNotExist:
+        order = None  
+        print("No completed order found for customer.")
+    
+    context = {'order': order}
+    return render(request, 'store/order_confirmation.html', context)
 
 def cart(request):
     
