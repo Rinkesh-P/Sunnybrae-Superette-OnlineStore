@@ -2,30 +2,23 @@
 {% load static %}
 {% block content %}
 
-
-
 <h3>Cart</h3>
 <div class="row">
      <div class="col-lg-12">
           <div class="box-element">
-               <a class="btn btn-outline-dark" href="{% url 'product' %}"> &#x2190; Continue Shopping </a>
-               <br>
-               <br>
 
+               <th><a class="btn btn-outline-dark" href="{% url 'product' %}"> &#x2190; Continue Shopping </a></th>
+
+
+               <br>
+               <br>
                <table class="table">
                     <tr>
-                         <th>
-                              <h5>Items: <strong> {{order.get_cart_items|floatformat:0}} </strong></h5>
-                         </th>
-                         <th>
-                              <h5>Total:<strong> ${{order.get_cart_total|floatformat:2}} </strong></h5>
-                         </th>
-                         <th>
-                              <a href="{% url 'checkout' %}"> Checkout </a>
-                         </th>
+                        <th>Items: <strong>{{ order.get_cart_items|floatformat:0 }}</strong></th>
+                        <th>Total: <strong>${{ order.get_cart_total|floatformat:2 }}</strong></th>
+                        <th><a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a></th>
                     </tr>
-               </table>
-
+                </table>
           </div>
 
           <br>
@@ -41,12 +34,15 @@
                {%for item in items %}
                <div class="cart-row">
                     <div style="flex:2"><img class="row-image" src="{% static 'images/placeholder.png' %}"></div>
+
                     <div style="flex:2">
                          <p>{{item.product.item_name}}</p>
                     </div>
+
                     <div style="flex:1">
                          <p>${{item.product.current_price|floatformat:2}}</p>
                     </div>
+
                     <div style="flex:1">
                          <p class="quantity">{{item.quantity}}</p>
                          <div class="quantity">
@@ -56,11 +52,13 @@
                                    data-product="{{item.product.item_id}}" data-action="remove">
                          </div>
                     </div>
+
                     <div style="flex:1">
                          <p>${{item.get_total|floatformat:2}}</p>
                     </div>
                </div>
                {%endfor%}
+
                {% if messages %}
                <ul class="messages">
                    {% for message in messages %}
@@ -71,12 +69,6 @@
                </ul>
                 {% endif %}
           </div>
-          
      </div>
-
 </div>
-
-
-
-
 {% endblock content %}

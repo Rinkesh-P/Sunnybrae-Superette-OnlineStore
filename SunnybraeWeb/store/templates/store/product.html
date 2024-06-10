@@ -1,69 +1,63 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-
-{%if search_query %}
-     <h3> Results for " {{search_query}}" </h3>
-{%else%}
-     <h3>Products</h3>
-{%endif%}
+{% if search_query %}
+    <h3>Results for "{{ search_query }}"</h3>
+{% else %}
+    <h3>Products</h3>
+{% endif %}
 
 <br> 
 
 
-<div class="container">
-     <form method ="GET" action = "{%url 'product'%}">
-          <input name="search" type="text" placeholder="Search..."> <!-- Implement on 23/05-->
-          <button type = "submit" class = "btn btn-primary"> Search </button> 
+<div class="container mt-3">
+
+     <form method ="GET" action = "{%url 'product'%}" class="form-inline mb-3">
+          <input name="search" type="text" placeholder="Search..." class="form-control mr-2"> <!-- Implement on 23/05-->
+          <button type = "submit" class = "btn btn-primary mr-2"> Search </button> 
           <button type = "button" class = "btn btn-secondary" id = "reset" data-url = "{%url 'product'%}"> Reset Search </button>
           
-          <select name="category" onchange="this.form.submit()">
+          <select name="category" class="form-control ml-2" onchange="this.form.submit()">
                <option value = ""> All Categories </option> <!-- for loop will display all the category IDs in the dropdown and the selected category will be displayed in the dropdown box -->
                {%for i in categories %}
                     <option value = "{{i}}" {%if i == selected_category%} selected {%endif%}> Category {{ i }} </option>
                {%endfor%}
           </select> 
-
-
      </form>
-
-     
 
      <div class="row" id="product-container">
           {% for product in page_object %}
-          <div class="col-lg-4 product-item">
-               <div class="box-element product">
-                    <img class="thumbnail" src="{% static 'images/placeholder.png' %}" />
-                    <h6>{{product.item_name}}</h6>
-                    <hr>
+          <div class="col-lg-4 col-md-6 mb-4 product-item">
+               <div class="product card h-100">
+                    <img class="thumbnail card-img-top" src="{% static 'images/placeholder.png' %}" />
 
-                    <button class="btn btn-outline-secondary add-btn" data-product="{{product.item_id}}">Add to Cart </button>
-                    
-                    <button popovertarget = "view-btn" class="btn btn-outline-success" href="#">View </button> 
+                    <div class = "card-body">
 
-                    <div id = "view-btn" popover> 
-                         <img class="thumbnail" src="{% static 'images/placeholder.png' %}" />
-                         <h6> Product Id: <span class = "normal-text"> {{product.item_id}}  </span> </h6> 
-                         <h6> Product Name: <span class = "normal-text"> {{product.item_name}} </span> </h6> 
-                         <h6> Product Price: <span class = "normal-text"> ${{product.current_price}} </span> </h6> 
-                         <h6> Category Id: <span class = "normal-text"> {{product.category_id}} </span> </h6>
-                         <button class="btn btn-outline-secondary add-btn" data-product="{{product.item_id}}"> Add to Cart </button> 
+                         <h6 class="card-title">{{ product.item_name }}</h6>
+                         <h5>${{ product.current_price|floatformat:2 }}</h5>
+               
+                         <button class="btn btn-outline-secondary add-btn" data-product="{{product.item_id}}">Add to Cart </button>
+                         
+                         <button popovertarget = "view-btn" class="view-btn-style btn btn-outline-success" href="#">View </button> 
+                         
+                         <div id = "view-btn" popover> 
+                              <img class="thumbnail" src="{% static 'images/placeholder.png' %}" />
+                              <h6> Product Id: <span class = "normal-text"> {{product.item_id}}  </span> </h6> 
+                              <h6> Product Name: <span class = "normal-text"> {{product.item_name}} </span> </h6> 
+                              <h6> Product Price: <span class = "normal-text"> ${{product.current_price}} </span> </h6> 
+                              <h6> Category Id: <span class = "normal-text"> {{product.category_id}} </span> </h6>
+                              <button class="btn btn-outline-secondary add-btn" data-product="{{product.item_id}}"> Add to Cart </button> 
+                         </div>
+
                     </div> 
-
-                    
-
-                    <h5 style="display: inline-block; float: right">
-                         ${{product.current_price|floatformat:2}}
-                    </h5>
                </div>
           </div>
           {% endfor %}
      </div>
 </div>
 
-<br> 
 <!-- Creating a pagination bar for all the pages so customer can click on it and browse other products-->
-<nav aria-label="Page navigation">
+<nav aria-label="Page navigation" class="mt-4">
      <ul class="pagination justify-content-center">
           {% if page_object.has_previous %}
           <!-- check if there is a previous page, if there is then display the link for it and limit the page numbers if the user is searching or using the category drop down hence the &query_string-->
@@ -92,9 +86,5 @@
 </nav>
 
 <br> 
-
-{% comment %} <div class="text-center" id="loading">
-     <button id="load-more" class="btn btn-primary">Load More</button>
-</div> {% endcomment %}
 
 {% endblock content %}

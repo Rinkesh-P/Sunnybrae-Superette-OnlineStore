@@ -2,9 +2,10 @@
 {% load static %}
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>SunnybraeStore</title>
 
@@ -12,56 +13,53 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-  
+
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 
-  {% csrf_token %} <!-- have to include in the template so that it applies to all other html pages -->
-
-
+  {% csrf_token %}
+  <!-- have to include in the template so that it applies to all other html pages -->
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url 'product' %}">SunnybraeStore</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    
+    <a class="navbar-brand" href="{% url 'product' %}">HomePage</a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product' %}">Products <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'faq' %}">FAQ <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'product' %}">
-            Products <span class="sr-only">(current)</span></a>
-        </li>
-
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'faq' %}">
-            FAQ <span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
-      <div class="form-inline my-2 my-lg-0">
-        <div class = "single-btn">
-          {%if user.is_authenticated %}
-            <a href = "{%url 'logout' %}" class = "btn btn-warning"> Logout </a>
-          {%else%}
-            <a href="{% url 'login' %}" class="btn btn-warning"> Login </a>
-            <a href="{% url 'register' %}" class="btn btn-warning"> Register </a> 
-          {%endif%}
-        </div>
-
-        <a class="btn cart-link " href="{% url 'cart' %}"> Cart </a>
+    <div class="form-inline my-2 my-lg-0">
+      <div class="single-btn">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
+        <a href="{% url 'register' %}" class="btn btn-warning">Register</a>
+        {% endif %}
+        <a class="btn btn-warning" href="{% url 'cart' %}">Cart</a>
       </div>
     </div>
-  </nav>
 
-  <div class="container">
-    <br> 
-    {% block content %} 
-    {% endblock content %}
-  </div>
+  </nav>
   
-  <script src="{% static 'js/main.js' %}"> </script>
+  <div class="container mt-4">{% block content %} {% endblock content %}</div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poTnklC0M3e+6HI9yl8dr/jHf/n68RJo9Ad6Wrn6GvI5HMOsmK" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-pzjw8f+ua7Kw1TIqNHlgutAP4C4p/2fS1P5Z4BEX8DWnU8lbzU9ET+09py3SYs4J"
+    crossorigin="anonymous"></script>
+
+  <script src="{% static 'js/main.js' %}"></script>
+
 </body>
 
 </html>
