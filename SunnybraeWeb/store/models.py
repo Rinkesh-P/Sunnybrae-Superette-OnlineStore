@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+"""
+
+Models for the database to use, Customer, Order, OrderItem and CheckoutInfo 
+
+
+"""
+
+#Customer class where each customer will be linked to a single User
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200, null=True)
@@ -8,7 +16,9 @@ class Customer(models.Model):
     
     def __str__(self):
         return self.name
-    
+
+
+#Poduct class to represent a Product in the database 
 class Product(models.Model):
     item_id = models.IntegerField(null=False, blank=True, primary_key=True)
     item_code = models.CharField(max_length=100)
@@ -20,7 +30,7 @@ class Product(models.Model):
         print(f"Product: {self.item_name}")
         return self.item_name
 
-
+#Order class to represent an order that a customer makes. 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
@@ -44,6 +54,7 @@ class Order(models.Model):
         total = sum([item.quantity for item in orderitems])
         return total
 
+#OrderItem class to represent an item in an Order, 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
@@ -55,7 +66,7 @@ class OrderItem(models.Model):
         total = self.product.current_price * self.quantity
         return total 
 
-
+#CheckoutInfo used to represent the Checkout information for an order when a customer goes to checkout. 
 class CheckoutInfo(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     guest_email = models.EmailField(null=True, blank=True)

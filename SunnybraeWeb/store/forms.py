@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import CheckoutInfo
 
+#All forms will go here, easy to maintain. 
+
 class LoginForm(forms.Form):
     username = forms.CharField(widget=TextInput(attrs={
         'class': "form-control", 

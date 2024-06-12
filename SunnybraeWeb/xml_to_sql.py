@@ -3,7 +3,10 @@ import xml.etree.ElementTree as ET
 import sqlite3
 
 # Check if the XML file exists
-file_path = 'data.xml'
+
+directory = os.getcwd()
+file_path = directory + "\SunnybraeWeb\data.xml"
+
 
 # Parse the XML file
 tree = ET.parse(file_path)
@@ -40,6 +43,7 @@ def convert_to_float(text):
         return None
 
 # Insert data into table with type conversions
+
 for item in root.findall('tbl_Item'):
     item_id = convert_to_int(get_text(item.find('Item_ID')))
     item_code = get_text(item.find('Item_Code'))
@@ -60,6 +64,11 @@ for item in root.findall('tbl_Item'):
         current_price
     )
     
+    # print ("ITEM ID ", item_id,
+    #        " ITEM CODE ", item_code,
+    #        " ITEM NAME ", item_name,
+    #        " CAT ID ", category_id,
+    #        " PRICE ", current_price)
     # Debugging: Print data to ensure it is being extracted and converted correctly
     #print("Extracted and converted data:", data)
     

@@ -57,11 +57,31 @@ body {
     border-color: #6c757d;
 }
 
+.view-btn-style:visited {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.view-btn-style:focus {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
 .view-btn-style:hover {
     color: #fff;
     background-color: #6c757d;
     border-color: #6c757d;
 }
+
+.view-btn-style:active {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+
 
 .row-image {
     width: 100px;
