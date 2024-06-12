@@ -22,17 +22,12 @@ def product(request):
     if query: 
         products = Product.objects.filter(item_name__icontains=query) #get all products that contain the searched word in it 
 
-    
     if category_id: #get all the category_id if the user clicks on the dropdown 
         products = Product.objects.filter(category_id=category_id) 
-    
-    
     
     paginator = Paginator(products, 9) #limits it to x products per page in this case 9 products per page
     page_number = request.GET.get('page') #Get current page number from the URL Parameters 
     page_object = paginator.get_page(page_number) #Get the page object for current page 
-    
-
     
     query_dict = QueryDict(mutable=True)  #need to retain the search results/ category id when the user clicks on the next page for paginator 
     if query:
@@ -45,7 +40,6 @@ def product(request):
         page_object.paginator.page(page).query_string = query_string  
     
     
-
     categories = Product.objects.values_list('category_id', flat=True).distinct() #list of all the distinct category_id in the product table 
     categories = sorted(categories) 
     
@@ -57,7 +51,6 @@ def product(request):
         'query_string': query_string, 
     } 
 
-    
     #Return to the Product.html page the logic for searching, filtering and pagination 
     
     return render (request, 'store/product.html', context)
