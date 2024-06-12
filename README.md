@@ -73,29 +73,39 @@ Sunnybrae-Superette-OnlineStore/
 
 <br> 1 - Opening command prompt (cmd) at the location of the project.
 
-<br> 2 - Install virtaul environment by typing the following command: py -m venv venv
+<br> 2 - Install virtaul environment by typing the following command: 
+    py -m venv venv
 
-<br> 3 - Activate virtual environment: "venv\Scripts\activate" 
+<br> 3 - Activate virtual environment: 
+    venv\Scripts\activate 
 
 <br> 4 - Install Django: "pip install django" 
 
-<br> 5 - Once Django is installed navigate to project folder and create Django project: "django-admin startproject projectname"  (replace project name with desired project name in this case SunnybraeWeb)
+<br> 5 - Once Django is installed navigate to project folder and create Django project: 
+
+    django-admin startproject projectname  (replace project name with desired project name in this case SunnybraeWeb)
 
 <br> 6 - Navigate to the directory of the project
 
-<br> 7 - Create new Django App within project: "python manage.py startapp appname" (where appname can be replaced with whatever you want to call it in this case it is called store)
+<br> 7 - Create new Django App within project: 
+    
+    python manage.py startapp appname (where appname can be replaced with whatever you want to call it in this case it is called store)
 
 <br> 8 - open settings.py located in the 'projectname' folder and add new app to "INSTALLED_APPS' list: INSTALLED_APPS[
     ....
     'appname.apps.AppConfig'
 ]
 
-<br> 9 - Verify setup was correct by running development server: "python manage.py runserver"
+<br> 9 - Verify setup was correct by running development server: 
+
+    python manage.py runserver
 
 <br>
 
 Database Setup
-<br> 10 - Once models.py has been set up with your relevant tables run the following command in the command promt: "python manage.py migrate"
+<br> 10 - Once models.py has been set up with your relevant tables run the following command in the command promt: 
+
+    python manage.py migrate
 
 <br> 11 - Optional Step: 
 
