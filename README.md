@@ -74,9 +74,11 @@ Sunnybrae-Superette-OnlineStore/
 <br> 1 - Opening command prompt (cmd) at the location of the project.
 
 <br> 2 - Install virtaul environment by typing the following command: 
+    
     py -m venv venv
 
 <br> 3 - Activate virtual environment: 
+    
     venv\Scripts\activate 
 
 <br> 4 - Install Django: "pip install django" 
@@ -111,4 +113,6 @@ Database Setup
 
     Fill the database with initial data, for this project I obtained the data from my Client and ran the following file to transfer data from XML to SQL: python xml_to_sql.py 
 
-<br> 11 - create superuser to test user authentication and functionality: "python manage.py createsuperuser" 
+<br> 11 - create superuser to test user authentication and functionality: 
+
+    python manage.py createsuperuser 
