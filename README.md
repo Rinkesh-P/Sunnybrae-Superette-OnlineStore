@@ -11,14 +11,17 @@ Although this project is personal, it's worth noting that a client was overseein
 - Search Functionality: The website features a search function that allows users to search for specific products by name or keyword.
 - User Authentication: Users can register, log in, and log out of their accounts to access personalized features such as saving items to their cart or viewing order history.
 - Secure Checkout: The checkout process is secure and user-friendly, ensuring a seamless shopping experience for customers.
-- Admin Interface: An admin interface is available for site administrators to manage products, orders, and user accounts.
 
 ### Future Plans 
 
 While the current focus is on implementing core features, future plans for this project include:
 
 - enhancing user interface and experience via better styling and visuals
-- implementing additional features such as the ability to review products, apply discounts, ordertracking, real-time updates of sales
+- implementing additional features:
+    - The ability to review products. 
+    - apply discounts. 
+    - order tracking. 
+    - ability to see stock levels.
 
 ## Folder Structure:
 ```bash
