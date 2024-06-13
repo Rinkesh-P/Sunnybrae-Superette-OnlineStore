@@ -17,6 +17,10 @@ Although this project is personal, it's worth noting that a client was overseein
 While the current focus is on implementing core features, future plans for this project include:
 
 - enhancing user interface and experience via better styling and visuals
+    - Including more inforamtion in the order confirmation 
+    - Product Images. 
+    - A better homepage for the users to land on
+
 - implementing additional features:
     - The ability to review products. 
     - apply discounts. 
@@ -81,7 +85,13 @@ Sunnybrae-Superette-OnlineStore/
     
     venv\Scripts\activate 
 
-<br> 4 - Install Django: "pip install django" 
+<br> 4 - Install Django: 
+
+    pip install django 
+
+<br> 5 - If you are wanting to run this specific project then you will need to run the following in cmd in the SunnybraeWeb folder
+
+    python manage.py runserver
 
 <br> 5 - Once Django is installed navigate to project folder and create Django project: 
 
@@ -104,7 +114,7 @@ Sunnybrae-Superette-OnlineStore/
 
 <br>
 
-Database Setup
+### Database Setup
 <br> 10 - Once models.py has been set up with your relevant tables run the following command in the command promt: 
 
     python manage.py migrate
