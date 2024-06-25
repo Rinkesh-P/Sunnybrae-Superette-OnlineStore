@@ -69,9 +69,11 @@ Sunnybrae-Superette-OnlineStore/
 |   |-- db.sqlite3
 |   |-- manage.py
 |   |-- xml_to_sql.py
-|-- venv/
-|-- planning.docx
-|-- read.me
+|   |-- venv/
+|   |-- planning.docx
+|   |-- read.me
+|
+
 ```
 
 

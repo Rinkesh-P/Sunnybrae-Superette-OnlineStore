@@ -1,42 +1,114 @@
 {% extends 'store/main.html' %} {% load static %} {% block content %}
-<h3>faq</h3>
+
+<h1>Welcome to Sunnybrae Superette Online Store</h1>
 <p>
-     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex purus,
-     placerat id nibh id, bibendum varius nibh. Ut rutrum in orci vitae
-     sollicitudin. Cras sit amet augue non sapien consequat lobortis a auctor nibh.
-     Duis mollis nunc ac risus posuere gravida. Pellentesque varius vestibulum
-     ipsum id condimentum. Nunc at blandit massa, in dapibus metus. Nunc faucibus
-     sem vel gravida gravida. Donec et dolor ornare, scelerisque ex id, accumsan
-     dui. Proin fringilla est vel porta mollis. Sed sagittis ipsum lorem, et
-     vestibulum sapien mollis eu. Maecenas lorem risus, ullamcorper a neque tempor,
-     consequat tempor nisi. Proin mollis metus non purus gravida, nec luctus est
-     tempor. Nunc fringilla eu metus et sollicitudin. Vivamus hendrerit sed dolor
-     in tincidunt. Curabitur interdum ac mi id imperdiet. Vivamus feugiat iaculis
-     nulla sed fermentum. Ut urna odio, rhoncus sed ipsum non, sollicitudin iaculis
-     mauris. Ut vitae velit fringilla, venenatis arcu et, volutpat est. Nullam a
-     tempus nisl. Pellentesque luctus ante ac purus lobortis volutpat. Nullam eu
-     est vel orci tincidunt vehicula sed id nunc. Duis eu erat nec neque dignissim
-     accumsan. Quisque euismod pellentesque sapien quis egestas. Nulla facilisi.
-     Nunc molestie mi ut fringilla ultrices. Integer efficitur eros finibus rutrum
-     blandit. In eget tempor tortor. Orci varius natoque penatibus et magnis dis
-     parturient montes, nascetur ridiculus mus. Fusce malesuada magna id justo
-     hendrerit blandit. Mauris in mauris vel dolor imperdiet dapibus. Proin nisi
-     dui, ultricies vel ligula a, molestie efficitur mi. Donec sed lectus dui.
-     Maecenas velit magna, egestas a velit non, sodales tristique mi. Praesent
-     pretium accumsan ipsum, at faucibus lorem cursus quis. Vivamus et odio at mi
-     tincidunt suscipit. Nam diam nibh, ornare nec mollis sit amet, lobortis quis
-     justo. In imperdiet magna sed lectus condimentum, sed pellentesque neque
-     molestie. Fusce ipsum elit, blandit in vestibulum in, viverra nec augue. Sed
-     consectetur magna ac orci gravida, a condimentum arcu mollis. Nullam maximus
-     malesuada massa non cursus. Mauris mi neque, accumsan vitae nisl et, suscipit
-     lobortis ante. Pellentesque luctus consectetur nisi, at pretium ex laoreet ut.
-     Morbi aliquam, nisi in lobortis fermentum, erat ipsum scelerisque enim, et
-     sollicitudin nisi ex quis leo. Vestibulum vel vulputate neque. Pellentesque
-     mauris erat, blandit vitae venenatis facilisis, faucibus vitae risus.
-     Suspendisse odio sem, gravida in est a, finibus pellentesque dui. Proin in
-     consequat mauris. Cras ut sollicitudin ligula, sit amet rutrum justo.
+     Discover a seamless shopping experience with a wide range of products. This
+     project is my journey into full-stack development, combining practical
+     application with personal growth.
 </p>
-   
+<br> 
+
+
+<div class="hero-section">
+     <img src="{% static 'images/placeholder.png' %}" alt="Sunnybrae Superette Banner" />
+     <div class="hero-content">
+     <br>
+     <h2>Your One-Stop Shop for Fresh Groceries and Everyday Essentials</h2>
+     <a href="{% url 'product' %}" class="single-btn">Start Shopping</a>
+     </div>
+</div>
+<br> 
+
+
+<h3>About the Project</h3>
+<p>
+     Welcome to the Sunnybrae Superette Online Store, a project dedicated to honing
+     my skills in software development as well as working with some database tools.
+     I mainly took on this project to challenge myself to create a comprehensive
+     full-stack application from start to finish. This project marks my return to
+     coding and my first solo venture outside of an academic scope, into full-stack
+     development.
+</p>
+<br> 
+
+
+
+
+
+<h3>About Me</h3>
+<p>
+     I’m passionate about software development, data analysis, and business
+     analytics, with a strong background in Computer Science, Information Systems,
+     and Business Analytics. Python is my strongest programming language, which is
+     why I decided to develop my first project in Python. This project is my first
+     major undertaking in full-stack development, with a little bit of data
+     cleaning.
+</p>
+<br> 
+
+
+<h3>Learning Experience</h3>
+<p>
+     Throughout this project, I revisited fundamental concepts of software
+     development and learned new technologies, including Django for backend
+     development and front-end integration. I also worked with JavaScript for
+     button functionality and OnClick events. Additionally, I gained experience in
+     data manipulation by converting an XML data set into an SQL database using
+     Python pandas.
+</p>
+<br> 
+
+
+<h3>Feature Highlights</h3>
+<ul>
+     <li>
+     <strong>Product Browsing:</strong> Explore a wide range of products across
+     various categories.
+     </li>
+     <li>
+     <strong>Search Functionality:</strong> Find products quickly with our
+     powerful search tool.
+     </li>
+     <li>
+     <strong>User Authentication:</strong> Register and log in to access
+     personalized features.
+     </li>
+     <li>
+     <strong>Secure Checkout:</strong> Enjoy a seamless and secure shopping
+     experience.
+     </li>
+</ul>
+<br> 
+
+
+<h3>Future Plans</h3>
+<p>
+     While the current focus is on implementing core features, future plans for
+     this project include enhancing the user interface with better styling and
+     visuals, adding more information to the order confirmation process, and
+     including product images. Additionally, I plan to implement features such as
+     product reviews, discounts, order tracking, and stock level visibility to
+     provide a richer shopping experience.
+</p>
+<br> 
+
+
+<h3>Links and Contact Information</h3>
+<ul>
+     <li><a href="mailto:rinkesh_2000@hotmail.com">Email</a></li>
+     <li><a href="https://www.linkedin.com/in/rinkeshpatel00/">LinkedIn</a></li>
+     <li><a href="https://github.com/Rinkesh-P">GitHub</a></li>
+     <li>
+     <a href="https://public.tableau.com/app/profile/rinkesh3464/vizzes"
+          >Tableau</a
+     >
+     </li>
+</ul>
+<br>
+
+
+<footer>
+     <p>&copy; 2024 Sunnybrae Superette. All rights reserved.</p>
+</footer>
+
 {% endblock content %}
-
-
